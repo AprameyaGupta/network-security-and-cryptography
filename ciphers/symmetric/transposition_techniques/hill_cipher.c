@@ -1,9 +1,9 @@
 #include<stdio.h>
 #include <string.h>
 
-char* hill_encoder(char plaintext[], int** key) {
+char* hill_encoder(char plaintext[], char* key) {
     int n = strlen(plaintext);
-    int key_size = sizeof(key[0])/sizeof(key[0][0]);
+    // int key_size = sizeof(key[0])/sizeof(key[0][0]);
     char encodedtext[n];
     for(int i = 0, j = 0; i < n; i++) {
         
