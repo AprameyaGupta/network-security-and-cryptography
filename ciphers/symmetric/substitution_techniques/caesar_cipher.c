@@ -3,10 +3,12 @@
 #include<string.h>
 #include<time.h>
 
+#define ALPHA_SIZE 26
+
 // Random Key Generator
 int key_generator() {
     srand(time(0));
-    int key = rand() % 26; // Random key generator within limits 0 to 26
+    int key = rand() % ALPHA_SIZE; // Random key generator within limits 0 to 26
     return key;
 }
 
@@ -20,12 +22,12 @@ char* caesar_encoder(char* plaintext, int key) {
             continue;
         }
         // Encryption
-        c += key;
+        char temp = c + key;
         // Check for limits
-        if(c > 'z' || (c > 'Z' && c < 'a')) {
-            c -= 26;
+        if((c >= 'A' && c <= 'Z' && temp > 'Z') || (c >= 'a' && c <= 'z' && temp > 'z')) {
+            temp -= ALPHA_SIZE;
         }
-        plaintext[i] = c;
+        plaintext[i] = temp;
     }
     return plaintext;
 }
@@ -43,7 +45,7 @@ char* caesar_decoder(char* text, int key) {
         c -= key;
         // Check for limits
         if(c < 'A' || (c > 'Z' && c < 'a')) {
-            c += 26;
+            c += ALPHA_SIZE;
         }
         text[i] = c;
     }
@@ -52,8 +54,9 @@ char* caesar_decoder(char* text, int key) {
 
 // Testing
 int main() {
-    char str[] = "geeZ is coming";
-    int k = key_generator();
+    char str[] = "geez is loming";
+    // int k = key_generator();
+    int k = 20;
     printf("%d\n", k);
     char* coded = caesar_encoder(str, k);
     printf("%s\n", coded);

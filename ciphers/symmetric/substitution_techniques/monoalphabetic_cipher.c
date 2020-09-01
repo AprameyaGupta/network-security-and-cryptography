@@ -3,15 +3,17 @@
 #include<string.h>
 #include<time.h>
 
+#define ALPHA_SIZE 26
+
 // Key generator inspired by fisher yates shuffle algorithm
 int* key_generator() {
-    static int cipher_text[26];
-    for(int i = 0; i < 26; i++) {
+    static int cipher_text[ALPHA_SIZE];
+    for(int i = 0; i < ALPHA_SIZE; i++) {
         cipher_text[i] = i+1;
     }
     // seed
     srand(time(0));
-    int j = 25;
+    int j = ALPHA_SIZE - 1;
     do {
         int r = rand() % j;
         int temp = cipher_text[j];
@@ -28,10 +30,10 @@ char* monoalphabetic_encoder(char* plaintext, int* key) {
     for(int i = 0; i < n; i++) {
         char c = plaintext[i];
         if(c >= 'A' && c<='Z') {
-            c = key[(int)c-65] + 64;
+            c = key[(int)c-'A'] + 'A' - 1;
         }
         else if (c >= 'a' && c <= 'z') {
-            c = key[(int)c-97] + 96;
+            c = key[(int)c-'a'] + 'a' - 1;
         } else {
             continue;
         }
@@ -46,13 +48,13 @@ char* monoalphabetic_decoder(char* text, int* key) {
     for(int i = 0; i < n; i++) {
         char c = text[i];
         if((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
-            for(int j = 0; j < 26; j++) {
-                if(c >= 'A' && c<='Z' && (key[j] == ((int)c-64))) {
-                    c = j + 65;
+            for(int j = 0; j < ALPHA_SIZE; j++) {
+                if(c >= 'A' && c<='Z' && (key[j] == (int)(c-'A'+1))) {
+                    c = j + 'A';
                     break;
                 }
                 else if (c >= 'a' && c <= 'z' && (key[j] == ((int)c-96))) {
-                    c = j + 97;
+                    c = j + 'a';
                     break;
                 }
             }
@@ -71,11 +73,11 @@ int main(int argc, char const *argv[])
     printf("Plain Text: %s \n", s);
     int* k =  key_generator();
     printf("Cipher Literals: \n");
-    for(int i = 0; i < 26; i++) {
+    for(int i = 0; i < ALPHA_SIZE; i++) {
         printf("%c\t%c\t%c\n", i + 65, k[i] + 64, k[i] + 96);
     }
     printf("\n");
-    for(int i = 0; i < 26; i++) {
+    for(int i = 0; i < ALPHA_SIZE; i++) {
         printf("%c ", k[i] + 96);
     }
     printf("\n");

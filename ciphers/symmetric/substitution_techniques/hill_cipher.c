@@ -1,6 +1,10 @@
 #include<stdio.h>
 #include <string.h>
 
+int** key_generator() {
+    static int 
+}
+
 char* hill_encoder(char plaintext[], char* key) {
     int n = strlen(plaintext);
     // int key_size = sizeof(key[0])/sizeof(key[0][0]);
